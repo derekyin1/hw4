@@ -44,21 +44,34 @@ public class Intersection{
     }
     else throw new IllegalArgumentException();
   }
+
+
 @SuppressWarnings("unchecked")
   public void display(){
-    String sim = "############################################################################\n";
+    String sim = "################################################################################\n";
 /** print time step, cars statistics, etc **/
+    sim += "Time Step: " + "\n";
+    //GREEN OR LEFT SIGNAL FOR WHICH ROUTE?
+    sim+="\n";
 
+    sim+="    ARRIVING CARS:\n";
+    // print arriving CARS
+
+    sim+="\n";
+
+    sim+="    PASSING CARS:\n";
+
+    sim+="\n";
 
     int row = 0;
     for (int i = 0; i < MAX_ROADS; i++){
       int allLanes = 1;
-      sim += roads[i].getName() + ":\n";
-      sim += "                       FORWARD               BACKWARD                       \n";
-      sim += "==============================               ===============================\n";
+      sim += "    " + roads[i].getName() + ":\n";
+      sim += "                           FORWARD               BACKWARD                       \n";
+      sim += "    ==============================               ===============================\n";
       while (allLanes <= 6){
         if ((roads[i]).dataAccess(allLanes).isEmpty()){
-          sim += "                              ";
+          sim += "                                  ";
           // add x's for lights that are red
           allLanes++;
         }
@@ -74,7 +87,8 @@ public class Intersection{
 
             }
             int numCars = newStack.size();
-            for (int spaces = 1; spaces <= 25 - numCars + 1; spaces++){
+            sim+="    ";
+            for (int spaces = 1; spaces <= 30 - (numCars*5); spaces++){
               sim += " ";
             }
             while (!newStack.isEmpty()){
@@ -91,19 +105,45 @@ public class Intersection{
         if (allLanes == 1 || allLanes == 2){
           sim += " [L]";
           // add x' s for lights that are RED
-          sim += "       ";
+          if (roads[i].getLightValue() == LightValue.LEFT_SIGNAL){
+            sim += "     x ";
+          }
+          else if (roads[i].getLightValue() == LightValue.GREEN){
+            sim += " x     ";
+          }
+          else if (roads[i].getLightValue() == LightValue.RED){
+            sim += " x   x ";
+          }
+          else sim += "       ";
           sim += "[R] ";
         }
         else if (allLanes == 3 || allLanes == 4){
           sim += " [M]";
-          // add x' s for lights that are RED
-          sim += "       ";
+          if (roads[i].getLightValue() == LightValue.LEFT_SIGNAL){
+            sim += " x   x ";
+          }
+          else if (roads[i].getLightValue() == LightValue.GREEN){
+            sim += "       ";
+          }
+          else if (roads[i].getLightValue() == LightValue.RED){
+            sim += " x   x ";
+          }
+          else sim += "       ";
           sim += "[M] ";
         }
         else if (allLanes == 5 || allLanes == 6){
           sim += " [R]";
           // add x' s for lights that are RED
-          sim += "       ";
+          if (roads[i].getLightValue() == LightValue.LEFT_SIGNAL){
+            sim += " x     ";
+          }
+          else if (roads[i].getLightValue() == LightValue.GREEN){
+            sim += "     x ";
+          }
+          else if (roads[i].getLightValue() == LightValue.RED){
+            sim += " x   x ";
+          }
+          else sim += "       ";
           sim += "[L] ";
         }
 
@@ -131,18 +171,28 @@ public class Intersection{
           sim+="\n";
         }
         if (allLanes > 6){
-          sim +=   "==============================               ===============================\n";
+          sim +=   "    ==============================               ===============================\n\n";
         }
-        else sim += "------------------------------               -------------------------------\n";
+        else sim += "    ------------------------------               -------------------------------\n";
       }
 
     }
+
+    sim+="\n\n    STATISTICS:\n";
+    sim+="      Cars currently waiting:\n";
+    sim+="      Total cars passed:\n";
+    sim+="      Total wait time:\n";
+    sim+="      Average wait time:\n";
+    sim+="\n";
+
+    sim += "################################################################################\n";
     System.out.println(sim);
   }
 
 
   public static void main(String[] args) {
     Vehicle car = new Vehicle(001);
+    Vehicle truck = new Vehicle(002);
     VehicleQueue testQ = new VehicleQueue();
     try{
       testQ.enqueue(car);
@@ -159,6 +209,18 @@ public class Intersection{
     roads[0] = testRoad1;
     roads[1] = testRoad2;
     Intersection test = new Intersection(roads);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, truck);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+    test.enqueueVehicle(0,1,1, car);
+
+
     test.display();
 
 

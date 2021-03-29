@@ -25,6 +25,7 @@ public class VehicleQueue implements java.lang.Cloneable {
     if (front == -1){
       front = 0;
       rear = 0;
+      size++;
     }
     else rear = (rear+1)%CAPACITY;
     data[rear] = vehicle;
@@ -38,6 +39,7 @@ public class VehicleQueue implements java.lang.Cloneable {
     if (front == rear){
       front = -1;
       rear = -1;
+      size--;
     }
     else front = (front+1)%CAPACITY;
     size--;
