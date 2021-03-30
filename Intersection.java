@@ -22,12 +22,12 @@ public class Intersection{
     if (initRoads == null || initRoads.length > MAX_ROADS){
       throw new IllegalArgumentException();
     }
-    for (int i = 0; i < MAX_ROADS; i++){
+    for (int i = 0; i < initRoads.length; i++){
       if (initRoads[i] == null){
         throw new IllegalArgumentException();
       }
     }
-    roads = new TwoWayRoad[MAX_ROADS];
+    roads = new TwoWayRoad[initRoads.length];
     roads = initRoads;
     lightIndex = 0;
     countdownTimer = roads[lightIndex].getGreenTime();
@@ -63,7 +63,7 @@ public class Intersection{
 */
   public Vehicle[] timeStep(){
     if (countdownTimer==0){
-      lightIndex = (lightIndex+1)%MAX_ROADS;
+      lightIndex = (lightIndex+1)%roads.length;
       countdownTimer = roads[lightIndex].getGreenTime();
     }
     if (roads[lightIndex].getLightValue() == LightValue.LEFT_SIGNAL){
@@ -74,7 +74,7 @@ public class Intersection{
         }
       }
       if (preempt){
-        lightIndex = (lightIndex+1)%MAX_ROADS;
+        lightIndex = (lightIndex+1)%roads.length;
         countdownTimer = roads[lightIndex].getGreenTime();
       }
     }
@@ -112,7 +112,7 @@ public class Intersection{
   public void display(){
     String sim = "";
     int row = 0;
-    for (int i = 0; i < MAX_ROADS; i++){
+    for (int i = 0; i < roads.length; i++){
       int allLanes = 1;
       sim += "    " + roads[i].getName() + ":\n";
       sim += "                           FORWARD               BACKWARD                       \n";

@@ -89,7 +89,6 @@ public class IntersectionSimulator{
                     sim = true;
                     while (sim){
                       simulate(simTime, prob, names, times);
-                      System.out.println("End simulation.");
                       sim = false;
                       menu = false;
 
@@ -196,7 +195,7 @@ public class IntersectionSimulator{
       }
 //occurs
       else{
-      for (int i = 0; i < 2; i++){
+      for (int i = 0; i < roads.length; i++){
         for (int ways = 0; ways < TwoWayRoad.NUM_WAYS; ways++){
           for (int lanes = 0; lanes < TwoWayRoad.NUM_LANES; lanes++){
             if (bool.occurs()){
